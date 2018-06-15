@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Link!</title>
+</head>
+<body>
+    <input type="text" id="url-input">
+    <input type="button" id="btn-url-input" value="Create short link" onclick=sendUrl()>
+    <a id="result"></a>
+
+    <script>
+        function sendUrl() {
+            var text = document.getElementById("url-input").value;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({url:text}));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var url = window.location.href + xhr.responseText;
+                    var result = document.getElementById("result");
+
+                    result.innerHTML = url;
+                    result.href = url;
+                    console.log(url);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
